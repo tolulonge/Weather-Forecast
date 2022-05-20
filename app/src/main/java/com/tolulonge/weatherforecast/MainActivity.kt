@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-
+        binding.toolbar.visibility = View.GONE
 
 
         val navHostFragment = supportFragmentManager

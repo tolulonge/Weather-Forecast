@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/clear_sky"
+            android:src="@drawable/east_wind"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,13 +28,13 @@
 
 
         <TextView
-            android:id="@+id/txtPlaceName"
+            android:id="@+id/txtWindName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/text_background"
             android:padding="8dp"
-            android:text="Tallin"
+            android:text="Kuusiku"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -44,40 +44,41 @@
 
 
         <TextView
-            android:id="@+id/txt_temperature_range_place"
+            android:id="@+id/txt_wind_speed_range"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/text_background"
-            android:text="10 to 12 degrees"
+            android:text="4.0 to 8.0"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_phenomenon_name" />
+            app:layout_constraintTop_toBottomOf="@id/txt_direction_name" />
 
         <TextView
-            android:id="@+id/txt_phenomenon_name"
+            android:id="@+id/txt_direction_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/text_background"
-            android:text="Moderate Shower"
+            android:text="East Wind"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPlaceName" />
+            app:layout_constraintTop_toBottomOf="@+id/txtWindName" />
+
 
         <ImageView
-            android:id="@+id/img_open_details_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_navigate_next_24" />
+            android:background="@drawable/text_background"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_wind_speed_range"
+            app:layout_constraintEnd_toStartOf="@+id/txt_wind_speed_range"
+            app:srcCompat="@drawable/speedometer_icon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
