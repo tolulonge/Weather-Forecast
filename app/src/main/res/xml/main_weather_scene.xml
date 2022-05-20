@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@id/start"
+        app:duration="2000"
+        app:autoTransition="animateToEnd"
+        />
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@id/txt_today"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="@id/second_vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/first_horizontal_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <Constraint
+            android:id="@id/layer_day_card"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/first_vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/txt_date"
+            android:layout_marginTop="16dp"
+            />
+
+        <Constraint
+            android:id="@id/layer_night_card"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/first_vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/layer_day_card"
+            android:layout_marginTop="24dp"
+            />
+
+
+    </ConstraintSet>
+
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@id/txt_today"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="@id/first_vertical_guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Constraint
+            android:id="@id/layer_day_card"
+            app:layout_constraintEnd_toStartOf="@id/second_vertical_guideline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/first_vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/txt_date"
+            android:layout_marginTop="16dp"
+            />
+
+        <Constraint
+            android:id="@id/layer_night_card"
+            app:layout_constraintEnd_toStartOf="@id/second_vertical_guideline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/first_vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/layer_day_card"
+            android:layout_marginTop="24dp"
+            />
+        <Constraint
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.0"
+            android:layout_width="wrap_content"
+            android:id="@+id/first_horizontal_guideline" />
+
+
+    </ConstraintSet>
+</MotionScene>
