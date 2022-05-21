@@ -1,27 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout
+    android:id="@+id/single_place_motion_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SinglePlaceWeatherFragment">
+    tools:context=".SinglePlaceWeatherFragment"
+    app:layoutDescription="@xml/fragment_single_place_weather_scene">
+
+    <ImageView
+        android:id="@+id/iv_single_place_weather_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/clear_sky" />
+
 
     <TextView
-        android:id="@+id/textview_second"
+        android:id="@+id/txt_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/text_background"
+        android:padding="8dp"
+        android:text="20th May, 2022"
+        android:textSize="24sp"
+    />
 
-    <Button
-        android:id="@+id/button_second"
+    <TextView
+        android:id="@+id/txt_place_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="24dp"
+        android:background="@drawable/text_background"
+        android:padding="8dp"
+        android:text="Estonia"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_date"
+        app:layout_constraintStart_toStartOf="@+id/txt_date"
+        app:layout_constraintTop_toBottomOf="@id/txt_date" />
+
+    <TextView
+        android:id="@+id/txt_place_phenomenon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_background"
+        app:layout_constraintStart_toStartOf="@id/txt_min_temperature"
+        app:layout_constraintEnd_toEndOf="@id/txt_min_temperature"
+        app:layout_constraintBottom_toTopOf="@id/txt_min_temperature"
+        android:layout_marginBottom="8dp"
+        android:text="Cloudy Weather"
+        android:textSize="24sp"
+        android:padding="8dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_min_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/text_background"
+        android:padding="8dp"
+        android:text="Min Temp: two degrees"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/txt_max_temperature"
+        app:layout_constraintEnd_toEndOf="@id/txt_max_temperature"
+        app:layout_constraintStart_toStartOf="@id/txt_max_temperature" />
+
+    <TextView
+        android:id="@+id/txt_max_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_background"
+        android:padding="8dp"
+        android:text="Max Temp: twenty three degrees"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="659dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/text_background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cloud_img"
+        app:layout_constraintBottom_toTopOf="@+id/txt_place_phenomenon"
+        app:layout_constraintEnd_toEndOf="@+id/txt_place_phenomenon"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/txt_place_phenomenon" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

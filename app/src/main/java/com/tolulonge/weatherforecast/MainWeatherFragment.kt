@@ -11,9 +11,6 @@ import com.tolulonge.weatherforecast.databinding.FragmentMainWeatherBinding
 import com.tolulonge.weatherforecast.presentation.adapter.PlacesListAdapter
 import com.tolulonge.weatherforecast.presentation.adapter.WindsListAdapter
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class MainWeatherFragment : Fragment() {
 
     private var _binding: FragmentMainWeatherBinding? = null
@@ -38,8 +35,10 @@ class MainWeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         placesListAdapter = PlacesListAdapter(places){
-            Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.fragment_single_place_weather)
+        }
+        binding.imgSwitchDay.setOnClickListener {
+            findNavController().navigate(R.id.forecastDaysGallery)
         }
 
         windListAdapter = WindsListAdapter(winds)
