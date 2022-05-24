@@ -1,4 +1,4 @@
-package com.tolulonge.weatherforecast
+package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.databinding.FragmentForecastDaysGalleryBinding
-import com.tolulonge.weatherforecast.databinding.FragmentMainWeatherBinding
 import com.tolulonge.weatherforecast.presentation.adapter.ForecastDaysAdapter
 import com.tolulonge.weatherforecast.presentation.adapter.PlacesListAdapter
 import com.tolulonge.weatherforecast.presentation.adapter.WindsListAdapter
@@ -17,9 +18,7 @@ import com.tolulonge.weatherforecast.presentation.adapter.WindsListAdapter
 class ForecastDaysGalleryFragment : Fragment() {
 
     private var _binding: FragmentForecastDaysGalleryBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val args: ForecastDaysGalleryFragmentArgs by navArgs()
     private val binding get() = _binding!!
     private lateinit var forecastDaysAdapter: ForecastDaysAdapter
 
@@ -35,19 +34,13 @@ class ForecastDaysGalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpRecyclerView()
 
-        forecastDaysAdapter = ForecastDaysAdapter(forecast){
-            Toast.makeText(requireContext(), it.phenomenon, Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.fragment_main_weather)
+        forecastDaysAdapter.differ.submitList(args.forecastDaysGallery.toList())
+        forecastDaysAdapter.setOnItemClickListener {
+            val action = ForecastDaysGalleryFragmentDirections.actionForecastDaysGalleryToSpecificDayWeatherFragment(it)
+            findNavController().navigate(action)
         }
-
-
-
-
-        binding.apply {
-            rvForecastDaysGallery.adapter = forecastDaysAdapter
-        }
-
     }
 
     override fun onDestroyView() {
@@ -55,11 +48,9 @@ class ForecastDaysGalleryFragment : Fragment() {
         _binding = null
     }
 
+    private fun setUpRecyclerView() {
+        forecastDaysAdapter = ForecastDaysAdapter()
+        binding.rvForecastDaysGallery.adapter = forecastDaysAdapter
+    }
+
 }
-
-data class Forecast(val phenomenon: String,val date: String)
-
-val forecast = listOf(Forecast("Sunny", "20th \nMay \n2022"),
-    Forecast("Winter", "8th \nMay \n2022"),
-    Forecast("Cloudy", "24th \nMay \n2022"),
-    Forecast("Sunshine", "21st \nMay \n2022"))

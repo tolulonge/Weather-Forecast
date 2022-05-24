@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainWeatherFragment"
+    tools:context=".presentation.ui.MainWeatherFragment"
     android:background="#67A9ED"
     android:fillViewport="true"
      android:layout_height="match_parent" android:layout_width="match_parent">
@@ -13,6 +13,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/main_weather_scene">
+
+        <LinearLayout
+            android:id="@+id/empty_views_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            >
+
+            <ImageView
+                android:id="@+id/no_data_imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_no_data"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:contentDescription="@string/no_data_image" />
+
+            <TextView
+                android:id="@+id/no_data_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="1"
+                android:textAlignment="center"
+                android:text="@string/no_data"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:background="@drawable/text_background"
+                android:visibility="gone"
+                />
+
+
+        </LinearLayout>
 
 
         <ImageView
@@ -92,6 +131,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.98" />
+
+        <LinearLayout
+            android:id="@+id/progress_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:elevation="1dp">
+        <ProgressBar
+            style="?android:attr/progressBarStyleInverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:id="@+id/progressBar"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

@@ -2,27 +2,22 @@ package com.tolulonge.weatherforecast.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.tolulonge.weatherforecast.Place
-import com.tolulonge.weatherforecast.R
-import com.tolulonge.weatherforecast.Wind
-import com.tolulonge.weatherforecast.databinding.ItemRvPlaceWeatherBinding
 import com.tolulonge.weatherforecast.databinding.ItemRvWindWeatherBinding
+import com.tolulonge.weatherforecast.presentation.state.model.PresentationWind
 
-class WindsListAdapter(
-    private var allWinds: List<Wind>,
-) : RecyclerView.Adapter<WindsListAdapter.WindViewHolder>() {
+class WindsListAdapter : RecyclerView.Adapter<WindsListAdapter.WindViewHolder>() {
 
     class WindViewHolder(private val binding: ItemRvWindWeatherBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(wind: Wind) {
+        fun bind(wind: PresentationWind) {
             binding.apply {
                 txtWindName.text = wind.name
                 txtDirectionName.text = wind.direction
-                txtWindSpeedRange.text = wind.windSpeedRange
+                txtWindSpeedRange.text = "${wind.speedmin} to ${wind.speedmax}"
             }
         }
     }
@@ -33,14 +28,30 @@ class WindsListAdapter(
     }
 
     override fun onBindViewHolder(holder: WindViewHolder, position: Int) {
-        if (allWinds.isNotEmpty()) {
-            val currentPlace = allWinds[position]
-            holder.bind(currentPlace)
-        }
+            val currentWind = differ.currentList[position]
+            holder.bind(currentWind)
     }
 
     override fun getItemCount(): Int {
-        return allWinds.size
+        return differ.currentList.size
     }
+
+    private val differCallback = object : DiffUtil.ItemCallback<PresentationWind>() {
+        override fun areItemsTheSame(
+            oldItem: PresentationWind,
+            newItem: PresentationWind
+        ): Boolean {
+            return oldItem.name == newItem.name
+        }
+
+        override fun areContentsTheSame(
+            oldItem: PresentationWind,
+            newItem: PresentationWind
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
 }

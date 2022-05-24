@@ -1,16 +1,13 @@
-package com.tolulonge.weatherforecast
+package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.navigation.NavController
+import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -37,13 +34,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-
-
-
     }
-
-
-
 
 
     override fun onSupportNavigateUp(): Boolean {

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SinglePlaceWeatherFragment"
+    tools:context=".presentation.ui.SinglePlaceWeatherFragment"
     app:layoutDescription="@xml/fragment_single_place_weather_scene">
 
     <ImageView
