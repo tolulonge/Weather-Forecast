@@ -56,12 +56,12 @@ class ForecastDaoTest {
             ApplicationProvider.getApplicationContext(),
             WeatherForecastDatabase::class.java
         ).allowMainThreadQueries()
+            .addTypeConverter(converter)
             .build()
         dao = database.forecastDao
     }
 
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun insertAllWeatherForecast() = runTest {
         val forecasts = jsonResponse.listOfLocalForecast.take(2)

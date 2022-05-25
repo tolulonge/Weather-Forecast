@@ -2,6 +2,7 @@ package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -110,6 +111,9 @@ class MainWeatherFragment : Fragment() {
 
     private fun setUpViews(presentationForecast: PresentationForecast) {
         with(presentationForecast){
+            binding.txtDate.text = presentationForecast.date
+            Toast.makeText(requireContext(), "${presentationForecast.date}", Toast.LENGTH_SHORT)
+                .show()
             binding.layerDayCard.apply {
                 txtTemperatureRange.text = "${day?.tempmin}"
                 txtPhenomenon.text = day?.phenomenon ?: ""

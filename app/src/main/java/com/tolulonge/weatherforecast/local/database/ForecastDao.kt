@@ -9,7 +9,7 @@ import com.tolulonge.weatherforecast.local.entities.LocalForecast
 @Dao
 interface ForecastDao {
 
-    @Query("SELECT * FROM weather_forecast_table ORDER BY weather_forecast_date DESC")
+    @Query("SELECT * FROM weather_forecast_table ORDER BY weather_forecast_date ASC")
     suspend fun getAllWeatherForecasts(): List<LocalForecast>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
