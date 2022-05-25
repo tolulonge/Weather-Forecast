@@ -3,7 +3,7 @@ package com.tolulonge.weatherforecast.presentation.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +49,7 @@ class MainWeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         setUpRecyclerView()
         subscribeToObservables()
 
@@ -63,13 +64,31 @@ class MainWeatherFragment : Fragment() {
             }
         }
 
+        binding.noDataTextView.setOnClickListener {
+            reloadWeatherForecasts()
+        }
+
 
         placesListDayAdapter.setOnItemClickListener {
             val todayWeather = allWeatherForecast?.get(0) ?:  return@setOnItemClickListener
+
             val action = MainWeatherFragmentDirections.actionFragmentMainWeatherToFragmentSinglePlaceWeather(
                 todayWeather.date!!,it
             )
             findNavController().navigate(action)
+        }
+
+        placesListNightAdapter.setOnItemClickListener {
+            val todayWeather = allWeatherForecast?.get(0) ?:  return@setOnItemClickListener
+
+            val action = MainWeatherFragmentDirections.actionFragmentMainWeatherToFragmentSinglePlaceWeather(
+                todayWeather.date!!,it
+            )
+            findNavController().navigate(action)
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            reloadWeatherForecasts()
         }
 
 
@@ -88,6 +107,7 @@ class MainWeatherFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_reload_weather -> {
+                binding.swipeRefreshLayout.isRefreshing = true
                 reloadWeatherForecasts()
                 true
             }
@@ -125,7 +145,6 @@ class MainWeatherFragment : Fragment() {
         with(presentationForecast){
             binding.layerNightCard.apply {
                 txtTemperatureRange.text = "${night?.tempmin ?: "nil"} to ${night?.tempmax ?: "nil"} degrees"
-                Log.d("DebuggingTempNight", "setUpViews: ${night?.tempmin}")
                 txtPhenomenon.text = night?.phenomenon ?: "No data"
                 txtMainDescription.text = night?.text ?: "No data"
                 txtSeaDescription.text = night?.sea ?: "No data"
@@ -139,34 +158,49 @@ class MainWeatherFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
 
             mainWeatherViewModel.allWeatherForecast.collectLatest { state ->
-                when (state) {
+                handleDataAndEmptyScenarios(state.isNotEmpty())
+                    if (state.isNotEmpty()){
+                        placesListDayAdapter.differ.submitList(state[0].day?.places)
+                        placesListNightAdapter.differ.submitList(state[0].night?.places)
+                        windsListDayAdapter.differ.submitList(state[0].day?.winds)
+                        windsListNightAdapter.differ.submitList(state[0].night?.winds)
+                        allWeatherForecast = state
+                        setUpViews(state[0])
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            mainWeatherViewModel.remoteUpdateResponse.collectLatest {state ->
+                when(state){
                     MainWeatherFragmentUiState.Empty -> {
-                        handleDataAndEmptyScenarios(false)
                     }
                     is MainWeatherFragmentUiState.Error -> {
                         if (state.message.isNotEmpty())
                             binding.root.showSnackBarWithAction(state.message, "Retry") {
                                 reloadWeatherForecasts()
                             }
+                        binding.swipeRefreshLayout.isRefreshing = false
                     }
                     is MainWeatherFragmentUiState.Loaded -> {
-                        val isAvailable = state.data.isNotEmpty()
-                        handleDataAndEmptyScenarios(isAvailable)
-                        if (state.message.isNotEmpty())
-                            binding.root.showSnackBar(state.message)
-                        placesListDayAdapter.differ.submitList(state.data[0].day?.places)
-                        placesListNightAdapter.differ.submitList(state.data[0].night?.places)
-                        windsListDayAdapter.differ.submitList(state.data[0].day?.winds)
-                        windsListNightAdapter.differ.submitList(state.data[0].night?.winds)
-                        allWeatherForecast = state.data
-                        setUpViews(state.data[0])
-
+                      if(state.data.isNotEmpty())
+                          binding.root.showSnackBar(state.data)
+                        binding.swipeRefreshLayout.isRefreshing = false
                     }
                     is MainWeatherFragmentUiState.Loading -> {
                         if (state.isLoading) {
-                            binding.progressBar.show()
+                            binding.apply{
+                                layerDayCard.progressBarLayer.show()
+                                layerNightCard.progressBarLayer.show()
+                            }
+                            if (state.message.isNotEmpty())
+                            binding.root.showSnackBar(state.message)
+
                         } else {
-                            binding.progressBar.hide()
+                            binding.apply{
+                                layerDayCard.progressBarLayer.hide()
+                                layerNightCard.progressBarLayer.hide()
+                            }
                         }
                     }
                 }
@@ -175,23 +209,24 @@ class MainWeatherFragment : Fragment() {
     }
 
     private fun handleDataAndEmptyScenarios(isAvailable: Boolean) {
-        if (isAvailable) {
+        if(isAvailable){
             binding.apply {
                 noDataImageView.hide()
                 noDataTextView.hide()
-
             }
-        } else {
+        }else{
             binding.apply {
                 noDataImageView.show()
                 noDataTextView.show()
-                progressBar.hide()
             }
         }
+
+
     }
 
     private fun reloadWeatherForecasts(){
         mainWeatherViewModel.onEvent(WeatherForecastEvent.RefreshWeatherForecast)
     }
+
 }
 

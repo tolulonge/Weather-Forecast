@@ -8,8 +8,8 @@ import kotlinx.parcelize.Parcelize
  */
 sealed class MainWeatherFragmentUiState {
     object Empty : MainWeatherFragmentUiState()
-    data class Loading(val isLoading: Boolean) : MainWeatherFragmentUiState()
-    data class Loaded(val data: List<PresentationForecast>, val message: String) : MainWeatherFragmentUiState()
+    data class Loading(val isLoading: Boolean, val message: String = "") : MainWeatherFragmentUiState()
+    data class Loaded(val data: String) : MainWeatherFragmentUiState()
     data class Error(val message: String) : MainWeatherFragmentUiState()
 }
 

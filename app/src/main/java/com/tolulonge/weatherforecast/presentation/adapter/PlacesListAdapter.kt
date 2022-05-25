@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.databinding.ItemRvPlaceWeatherBinding
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 
@@ -16,7 +17,7 @@ class PlacesListAdapter : RecyclerView.Adapter<PlacesListAdapter.PlacesViewHolde
             binding.apply {
                 txtPlaceName.text = presentationPlace.name
                 txtPhenomenonName.text = presentationPlace.phenomenon
-                txtTemperatureRangePlace.text = "${presentationPlace.tempmin to presentationPlace.tempmax }"
+                txtTemperatureRangePlace.text = binding.root.resources.getString(R.string.places_temp_range,presentationPlace.tempmin?: "_", presentationPlace.tempmax ?: "_" )
                 imgOpenDetailsPage.setOnClickListener{
                     onItemClickListener?.let {
                         it(presentationPlace)

@@ -8,23 +8,9 @@ import kotlinx.coroutines.flow.FlowCollector
 
 interface WeatherForecastRepository {
 
-    fun getAllWeatherForecast(fetchFromRemote: Boolean): Flow<Resource<List<DomainForecast>>>
+    suspend fun getAllWeatherForecast(): Flow<Resource<List<DomainForecast>>>
 
     fun getWeatherForecastByDate(date: String): Flow<Resource<DomainForecast>>
 
-    suspend fun <E, T> FlowCollector<Resource<List<E>>>.isFetchingResultFromDb(
-        fetchFromRemote: Boolean,
-        localData: List<T>,
-        retrieveFromDb: suspend () -> List<E>
-    ): Boolean
-
-    suspend fun <E, T> FlowCollector<Resource<List<E>>>.retrieveContentFromRemote(response: Resource<List<T>>): List<T>?
-
-    suspend fun <E, T> FlowCollector<Resource<List<E>>>.updateLocalFromRemoteAndEmitResult(
-        remoteResult: List<T>?,
-        insertToDb: suspend (List<T>) -> Unit,
-        retrieveFromDb: suspend () -> List<E>
-    )
-
-    fun <T> checkIfDatabaseIsEmpty(localData: List<T>): Boolean
+    suspend fun fetchFromRemoteAndUpdateDb(): Flow<Resource<String>>
 }

@@ -17,8 +17,9 @@ sealed class Resource<T>(val status: ApiStatus, val data: T? = null, val message
         status = ApiStatus.ERROR,
         message = message
     )
-    class Loading<T>(val isLoading: Boolean = true): Resource<T>(
+    class Loading<T>(val isLoading: Boolean = true, message: String? = null): Resource<T>(
         status = ApiStatus.LOADING,
+        message = message,
         data = null
     )
 }

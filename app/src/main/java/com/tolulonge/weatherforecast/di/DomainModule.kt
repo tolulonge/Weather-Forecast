@@ -19,11 +19,12 @@ object DomainModule {
         convertTemperatureValueToWords: ConvertTemperatureValueToWords
     ): WeatherForecastUseCases {
         return WeatherForecastUseCases(
-            getAllWeatherForecast = GetAllWeatherForecast(repository),
+            getAllWeatherForecastDb = GetAllWeatherForecastDb(repository),
             getWeatherForecastByDate = GetWeatherForecastByDate(repository),
             getReadableDate = GetReadableDate(),
             convertTemperatureValueToWords = convertTemperatureValueToWords,
-            findTempInStringAndConvert = FindTempInStringAndConvert(convertTemperatureValueToWords)
+            findTempInStringAndConvert = FindTempInStringAndConvert(convertTemperatureValueToWords),
+            getWeatherForecastFromRemote = GetWeatherForecastFromRemote(repository)
         )
     }
 

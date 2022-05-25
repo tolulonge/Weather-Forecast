@@ -1,5 +1,6 @@
 package com.tolulonge.weatherforecast.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tolulonge.weatherforecast.core.util.Resource
@@ -9,12 +10,12 @@ import com.tolulonge.weatherforecast.presentation.mapper.DomainForecastToPresent
 import com.tolulonge.weatherforecast.presentation.mapper.SingleDomainForecastToPresentationForecastMapper
 import com.tolulonge.weatherforecast.presentation.state.MainWeatherFragmentUiState
 import com.tolulonge.weatherforecast.presentation.state.SpecificDayWeatherFragmentUiState
+import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecast
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class MainWeatherViewModel @Inject constructor(
@@ -24,8 +25,11 @@ class MainWeatherViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _allWeatherForecast =
-        MutableStateFlow<MainWeatherFragmentUiState>(MainWeatherFragmentUiState.Empty)
+        MutableStateFlow<List<PresentationForecast>>(emptyList())
     val allWeatherForecast = _allWeatherForecast.asStateFlow()
+
+    private val _remoteUpdateResponse = MutableSharedFlow<MainWeatherFragmentUiState>()
+    val remoteUpdateResponse = _remoteUpdateResponse.asSharedFlow()
 
 
     private val _specificDayWeather =
@@ -34,12 +38,13 @@ class MainWeatherViewModel @Inject constructor(
 
 
     init {
-        getWeatherForecasts(true)
+        getWeatherForecasts()
+        getFromRemoteAndUpdateDb()
     }
 
     fun onEvent(event: WeatherForecastEvent) {
         when (event) {
-            is WeatherForecastEvent.RefreshWeatherForecast -> getWeatherForecasts(true)
+            is WeatherForecastEvent.RefreshWeatherForecast -> getFromRemoteAndUpdateDb()
             is WeatherForecastEvent.GetForecastByDate -> {
                 getSpecificDayWeatherForecast(event.date)
             }
@@ -49,16 +54,15 @@ class MainWeatherViewModel @Inject constructor(
     /**
      * Emits respective flow based on response from remote or database
      */
-    private fun getWeatherForecasts(fetchFromRemote: Boolean) {
+    private fun getWeatherForecasts() {
         viewModelScope.launch {
-            weatherForecastUseCases.getAllWeatherForecast(fetchFromRemote)
+            weatherForecastUseCases.getAllWeatherForecastDb()
                 .collect {
                         result ->
                     when (result) {
                         is Resource.Success -> {
                             result.data?.let { forecasts ->
-                                _allWeatherForecast.value = MainWeatherFragmentUiState.Loaded(
-                                    domainForecastToPresentationForecastMapper.map(
+                                _allWeatherForecast.value = domainForecastToPresentationForecastMapper.map(
                                         forecasts
                                     ).map { presentationForecast ->
                                         presentationForecast.copy(
@@ -95,19 +99,29 @@ class MainWeatherViewModel @Inject constructor(
                                             )
                                         )
 
-                                    },
-                                    result.message ?: ""
-                                )
+                                    }
                                 }
                             }
-                        is Resource.Error -> {
-                            _allWeatherForecast.value =
-                                MainWeatherFragmentUiState.Error(result.message ?: "")
-                            _allWeatherForecast.value = MainWeatherFragmentUiState.Loading(false)
+                        else -> {}
+                    }
+                }
+        }
+    }
 
+    private fun getFromRemoteAndUpdateDb(){
+        viewModelScope.launch {
+            weatherForecastUseCases.getWeatherForecastFromRemote()
+                .collect { response ->
+                    when(response){
+                        is Resource.Error -> {
+                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Loading(false))
+                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Error(response.message ?: "An Error Occurred"))
                         }
                         is Resource.Loading -> {
-                            _allWeatherForecast.value = MainWeatherFragmentUiState.Loading(result.isLoading)
+                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Loading(response.isLoading,response.message ?: "Loading"))
+                        }
+                        is Resource.Success -> {
+                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Loaded(response.data?: "Success"))
                         }
                     }
                 }

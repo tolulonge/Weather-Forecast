@@ -11,7 +11,7 @@ import java.io.InputStream
 fun View.showSnackBar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         .setTextColor(ContextCompat.getColor(this.context, R.color.white))
-        .setBackgroundTint(ContextCompat.getColor(this.context, R.color.orange_500))
+        .setBackgroundTint(ContextCompat.getColor(this.context, R.color.blue_500))
         .show()
 }
 
@@ -28,9 +28,9 @@ fun View.invisible() {
 }
 
 fun View.showSnackBarWithAction(message: String, actionText: String, action: (() -> Unit)) {
-    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
+    Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         .setTextColor(ContextCompat.getColor(this.context, R.color.white))
-        .setBackgroundTint(ContextCompat.getColor(this.context, R.color.blue_500))
+        .setBackgroundTint(ContextCompat.getColor(this.context, R.color.orange_500))
         .setAction(actionText) {
             action.invoke()
         }.setActionTextColor(Color.YELLOW)
