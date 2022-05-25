@@ -17,8 +17,8 @@ class DomainNightToPresentationNight(
             phenomenon = phenomenon,
             places =  domainPlaceToPresentationPlace.map(places ?: emptyList()),
             sea = sea,
-            tempmax = tempmax,
-            tempmin = tempmin,
+            tempmax = tempmax?.toString(),
+            tempmin = tempmin?.toString(),
             text = text,
             winds = domainWindToPresentationWind.map(winds ?: emptyList())
         )

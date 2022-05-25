@@ -5,5 +5,8 @@ package com.tolulonge.weatherforecast.domain.usecases
  */
 class WeatherForecastUseCases(
     val getAllWeatherForecast: GetAllWeatherForecast,
-    val getWeatherForecastByDate: GetWeatherForecastByDate
+    val getWeatherForecastByDate: GetWeatherForecastByDate,
+    val getReadableDate: GetReadableDate,
+    val convertTemperatureValueToWords: ConvertTemperatureValueToWords,
+    val findTempInStringAndConvert: FindTempInStringAndConvert
 )

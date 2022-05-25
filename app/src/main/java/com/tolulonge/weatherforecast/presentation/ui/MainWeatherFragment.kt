@@ -1,6 +1,7 @@
 package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -112,23 +113,23 @@ class MainWeatherFragment : Fragment() {
     private fun setUpViews(presentationForecast: PresentationForecast) {
         with(presentationForecast){
             binding.txtDate.text = presentationForecast.date
-            Toast.makeText(requireContext(), "${presentationForecast.date}", Toast.LENGTH_SHORT)
-                .show()
+
             binding.layerDayCard.apply {
-                txtTemperatureRange.text = "${day?.tempmin}"
-                txtPhenomenon.text = day?.phenomenon ?: ""
-                txtMainDescription.text = day?.text ?: ""
-                txtSeaDescription.text = day?.sea ?: ""
-                txtPeipsiInfo.text = day?.peipsi ?: ""
+                txtTemperatureRange.text = "${day?.tempmin ?: "nil"} to ${day?.tempmax ?: "nil"} degrees"
+                txtPhenomenon.text = day?.phenomenon ?: "No data"
+                txtMainDescription.text = day?.text ?: "No data"
+                txtSeaDescription.text = day?.sea ?: "No data"
+                txtPeipsiInfo.text = day?.peipsi ?: "No data"
             }
         }
         with(presentationForecast){
-            binding.layerDayCard.apply {
-                txtTemperatureRange.text = "${night?.tempmin}"
-                txtPhenomenon.text = night?.phenomenon ?: ""
-                txtMainDescription.text = night?.text ?: ""
-                txtSeaDescription.text = night?.sea ?: ""
-                txtPeipsiInfo.text = night?.peipsi ?: ""
+            binding.layerNightCard.apply {
+                txtTemperatureRange.text = "${night?.tempmin ?: "nil"} to ${night?.tempmax ?: "nil"} degrees"
+                Log.d("DebuggingTempNight", "setUpViews: ${night?.tempmin}")
+                txtPhenomenon.text = night?.phenomenon ?: "No data"
+                txtMainDescription.text = night?.text ?: "No data"
+                txtSeaDescription.text = night?.sea ?: "No data"
+                txtPeipsiInfo.text = night?.peipsi ?: "No data"
             }
         }
     }

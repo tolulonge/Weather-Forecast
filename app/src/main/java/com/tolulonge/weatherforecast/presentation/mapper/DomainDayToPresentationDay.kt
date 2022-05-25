@@ -18,8 +18,8 @@ class DomainDayToPresentationDay(
             phenomenon = phenomenon,
             places =  domainPlaceToPresentationPlace.map(places ?: emptyList()),
             sea = sea,
-            tempmax = tempmax,
-            tempmin = tempmin,
+            tempmax = tempmax?.toString(),
+            tempmin = tempmin?.toString(),
             text = text,
             winds = domainWindTOPresentationWind.map(winds ?: emptyList())
         )

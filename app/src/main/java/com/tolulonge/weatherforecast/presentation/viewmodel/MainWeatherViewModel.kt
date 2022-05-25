@@ -34,7 +34,7 @@ class MainWeatherViewModel @Inject constructor(
 
 
     init {
-        getWeatherForecasts(false)
+        getWeatherForecasts(true)
     }
 
     fun onEvent(event: WeatherForecastEvent) {
@@ -60,11 +60,46 @@ class MainWeatherViewModel @Inject constructor(
                                 _allWeatherForecast.value = MainWeatherFragmentUiState.Loaded(
                                     domainForecastToPresentationForecastMapper.map(
                                         forecasts
-                                    ),
+                                    ).map { presentationForecast ->
+                                        presentationForecast.copy(
+                                            date = weatherForecastUseCases.getReadableDate(presentationForecast.date),
+                                            day = presentationForecast.day?.copy(
+                                                tempmax = convertTempValueToWords(presentationForecast.day.tempmax),
+                                                tempmin = convertTempValueToWords(presentationForecast.day.tempmin),
+                                                places = presentationForecast.day.places?.map {
+                                                    it.copy(
+                                                        tempmax = convertTempValueToWords(it.tempmax),
+                                                        tempmin = convertTempValueToWords(it.tempmin)
+                                                    )
+                                                },
+                                                peipsi = weatherForecastUseCases.findTempInStringAndConvert(presentationForecast.day.peipsi),
+                                                sea = weatherForecastUseCases.findTempInStringAndConvert(presentationForecast.day.sea),
+                                                text = weatherForecastUseCases.findTempInStringAndConvert(presentationForecast.day.text)
+                                            ),
+                                            night = presentationForecast.night?.copy(
+                                                tempmax = convertTempValueToWords(
+                                                    presentationForecast.night.tempmax
+                                                ),
+                                                tempmin = convertTempValueToWords(
+                                                    presentationForecast.night.tempmin
+                                                ),
+                                                places = presentationForecast.night.places?.map {
+                                                    it.copy(
+                                                        tempmax = convertTempValueToWords(it.tempmax),
+                                                        tempmin = convertTempValueToWords(it.tempmin)
+                                                    )
+                                                },
+                                                peipsi = weatherForecastUseCases.findTempInStringAndConvert(presentationForecast.night.peipsi),
+                                                sea = weatherForecastUseCases.findTempInStringAndConvert(presentationForecast.night.sea),
+                                                text = weatherForecastUseCases.findTempInStringAndConvert(presentationForecast.night.text)
+                                            )
+                                        )
+
+                                    },
                                     result.message ?: ""
                                 )
+                                }
                             }
-                        }
                         is Resource.Error -> {
                             _allWeatherForecast.value =
                                 MainWeatherFragmentUiState.Error(result.message ?: "")
@@ -77,6 +112,11 @@ class MainWeatherViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun convertTempValueToWords(tempValue: String?): String?{
+        val tempValueInInt = tempValue?.toDouble()?.toInt() ?: return null
+        return weatherForecastUseCases.convertTemperatureValueToWords(tempValueInInt)
     }
 
     /**

@@ -12,8 +12,8 @@ class DomainPlaceToPresentationPlace: ListMapper<DomainPlace, PresentationPlace>
             PresentationPlace(
                 name = it.name,
                 phenomenon = it.phenomenon,
-                tempmax = it.tempmax,
-                tempmin = it.tempmin,
+                tempmax = it.tempmax?.toString(),
+                tempmin = it.tempmin?.toString(),
             )
         }
     }

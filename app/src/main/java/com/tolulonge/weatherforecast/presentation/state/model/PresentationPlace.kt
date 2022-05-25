@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class PresentationPlace(
     val name: String?,
     val phenomenon: String?,
-    val tempmax: Double?,
-    val tempmin: Double?
+    val tempmax: String?,
+    val tempmin: String?
 ): Parcelable

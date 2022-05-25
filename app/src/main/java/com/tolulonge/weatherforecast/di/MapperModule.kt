@@ -13,9 +13,14 @@ import com.tolulonge.weatherforecast.remote.mapper.RemoteDayToDataDay
 import com.tolulonge.weatherforecast.remote.mapper.RemoteNightToDataNight
 import com.tolulonge.weatherforecast.remote.mapper.RemotePlaceToDataPlace
 import com.tolulonge.weatherforecast.remote.mapper.RemoteWindToDataWind
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 object MapperModule {
 
     @Provides

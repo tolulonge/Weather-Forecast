@@ -5,8 +5,8 @@ data class PresentationDay(
     val phenomenon: String?,
     val places: List<PresentationPlace>?,
     val sea: String?,
-    val tempmax: Double?,
-    val tempmin: Double?,
+    val tempmax: String?,
+    val tempmin: String?,
     val text: String?,
     val winds: List<PresentationWind>?
 )
