@@ -1,9 +1,7 @@
 package com.tolulonge.weatherforecast.local.mapper
 
 import com.tolulonge.weatherforecast.core.util.mapper.ToAndFroListMapper
-import com.tolulonge.weatherforecast.data.model.DataPlace
 import com.tolulonge.weatherforecast.data.model.DataWind
-import com.tolulonge.weatherforecast.local.entities.LocalPlace
 import com.tolulonge.weatherforecast.local.entities.LocalWind
 
 class LocalDataWind: ToAndFroListMapper<LocalWind, DataWind> {

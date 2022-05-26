@@ -13,15 +13,20 @@ import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 
 class PlacesListAdapter : RecyclerView.Adapter<PlacesListAdapter.PlacesViewHolder>() {
 
-    inner class PlacesViewHolder(private val binding: ItemRvPlaceWeatherBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PlacesViewHolder(private val binding: ItemRvPlaceWeatherBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(presentationPlace: PresentationPlace) {
             binding.apply {
                 txtPlaceName.text = presentationPlace.name
                 txtPhenomenonName.text = presentationPlace.phenomenon
-                txtTemperatureRangePlace.text = binding.root.resources.getString(R.string.places_temp_range,presentationPlace.tempmin?: "_", presentationPlace.tempmax ?: "_" )
+                txtTemperatureRangePlace.text = binding.root.resources.getString(
+                    R.string.places_temp_range,
+                    presentationPlace.tempmin ?: "_",
+                    presentationPlace.tempmax ?: "_"
+                )
                 imgPhenomenonDesc.loadHeaderGifs(presentationPlace.phenomenon ?: "")
-                imgOpenDetailsPage.setOnClickListener{
+                imgOpenDetailsPage.setOnClickListener {
                     onItemClickListener?.let {
                         it(presentationPlace)
                     }
@@ -31,7 +36,8 @@ class PlacesListAdapter : RecyclerView.Adapter<PlacesListAdapter.PlacesViewHolde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlacesViewHolder {
-        val view = ItemRvPlaceWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view =
+            ItemRvPlaceWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PlacesViewHolder(view)
     }
 
@@ -72,7 +78,6 @@ class PlacesListAdapter : RecyclerView.Adapter<PlacesListAdapter.PlacesViewHolde
     fun setOnItemClickListener(listener: (PresentationPlace) -> Unit) {
         onItemClickListener = listener
     }
-
 
 
 }

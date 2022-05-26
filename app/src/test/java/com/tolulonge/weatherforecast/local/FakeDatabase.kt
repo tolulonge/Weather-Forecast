@@ -1,20 +1,18 @@
 package com.tolulonge.weatherforecast.local
 
-import com.tolulonge.weatherforecast.data.model.DataForecast
 import com.tolulonge.weatherforecast.local.entities.*
-import com.tolulonge.weatherforecast.remote.TestRemoteData
 
 
 class FakeDatabase {
 
     private val listOfPlaces = listOf(
-        LocalPlace("Parnu","Cloudy Weather",3.0,4.0),
-        LocalPlace("Estonia","Moderate Shower",10.0,16.0),
+        LocalPlace("Parnu", "Cloudy Weather", 3.0, 4.0),
+        LocalPlace("Estonia", "Moderate Shower", 10.0, 16.0),
     )
 
     private val listOfWinds = listOf(
-        LocalWind("West wind","Kuusiku",3.0,4.0),
-        LocalWind("Tartu","Moderate Shower",10.0,16.0),
+        LocalWind("West wind", "Kuusiku", 3.0, 4.0),
+        LocalWind("Tartu", "Moderate Shower", 10.0, 16.0),
     )
     private val day1 = LocalDay(
         places = listOfPlaces,
@@ -81,9 +79,9 @@ class FakeDatabase {
         sea = null
     )
 
-    val listOfLocalForecast = hashSetOf(
+    val listOfLocalForecast = mutableListOf(
         LocalForecast(
-        "2022-05-17", day1, night1
+            "2022-05-17", day1, night1
         ),
         LocalForecast(
             "2022-05-18", day2, night2

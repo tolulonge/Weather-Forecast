@@ -1,5 +1,8 @@
 package com.tolulonge.weatherforecast.domain.usecases
 
+/**
+ * This is a use case that converts temperature values to english words
+ */
 class ConvertTemperatureValueToWords {
 
 
@@ -19,9 +22,10 @@ class ConvertTemperatureValueToWords {
         "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
         "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
     )
-    private var tens = arrayOf("twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
+    private var tens =
+        arrayOf("twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
 
-    private fun convertValueLessThanHundred(value : Int): String? {
+    private fun convertValueLessThanHundred(value: Int): String? {
         if (value < 20) return zeroToNineteen[value]
         for (i in tens.indices) {
             val tensValue = tens[i]

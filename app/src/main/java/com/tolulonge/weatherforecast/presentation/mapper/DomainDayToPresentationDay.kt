@@ -1,12 +1,8 @@
 package com.tolulonge.weatherforecast.presentation.mapper
 
 import com.tolulonge.weatherforecast.core.util.mapper.Mapper
-import com.tolulonge.weatherforecast.data.model.DataDay
 import com.tolulonge.weatherforecast.domain.model.DomainDay
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationDay
-import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
-import com.tolulonge.weatherforecast.presentation.state.model.PresentationWind
-import com.tolulonge.weatherforecast.remote.model.weatherforecast.Day
 
 class DomainDayToPresentationDay(
     private val domainPlaceToPresentationPlace: DomainPlaceToPresentationPlace,

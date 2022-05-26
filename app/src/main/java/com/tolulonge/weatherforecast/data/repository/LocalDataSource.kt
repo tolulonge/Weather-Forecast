@@ -1,7 +1,6 @@
 package com.tolulonge.weatherforecast.data.repository
 
 import com.tolulonge.weatherforecast.data.model.DataForecast
-import com.tolulonge.weatherforecast.local.entities.LocalForecast
 import kotlinx.coroutines.flow.Flow
 
 

@@ -13,7 +13,6 @@ import com.tolulonge.weatherforecast.local.converter.Converters
 import com.tolulonge.weatherforecast.local.database.WeatherForecastDatabase
 import com.tolulonge.weatherforecast.local.mapper.*
 import com.tolulonge.weatherforecast.local.source.LocalDataSourceImpl
-import com.tolulonge.weatherforecast.presentation.mapper.*
 import com.tolulonge.weatherforecast.remote.api.WeatherForecastApi
 import com.tolulonge.weatherforecast.remote.mapper.*
 import com.tolulonge.weatherforecast.remote.source.RemoteDataSourceImpl
@@ -21,7 +20,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -84,8 +82,7 @@ object AppModule {
             app,
             WeatherForecastDatabase::class.java,
             WeatherForecastDatabase.DATABASE_NAME
-        ).addTypeConverter(converter).
-        build()
+        ).addTypeConverter(converter).build()
     }
 
     @Provides
@@ -100,16 +97,13 @@ object AppModule {
             localDataSource = localDataSource,
             remoteDataSource = remoteDataSource,
             dataForecastToDomainForecastMapper = DataForecastToDomainForecastMapper(
-              dataDayToDomainDay, dataNightToDomainNight
+                dataDayToDomainDay, dataNightToDomainNight
             ),
             singleDataForecastToDomainForecastMapper = SingleDataForecastToDomainForecastMapper(
                 dataDayToDomainDay, dataNightToDomainNight
             )
         )
     }
-
-
-
 
     @Provides
     @Singleton
@@ -120,7 +114,10 @@ object AppModule {
     ): LocalDataSource {
         return LocalDataSourceImpl(
             localDataForecastListMapper = LocalDataForecastListMapper(localDataDay, localDataNight),
-            singleDataForecastToLocalForecastMapper = SingleDataForecastToLocalForecastMapper(localDataDay, localDataNight),
+            singleDataForecastToLocalForecastMapper = SingleDataForecastToLocalForecastMapper(
+                localDataDay,
+                localDataNight
+            ),
             forecastDao = db.forecastDao
         )
     }

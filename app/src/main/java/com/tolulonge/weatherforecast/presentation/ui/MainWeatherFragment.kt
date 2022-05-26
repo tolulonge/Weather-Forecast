@@ -2,23 +2,19 @@ package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.core.util.*
 import com.tolulonge.weatherforecast.databinding.FragmentMainWeatherBinding
-import com.tolulonge.weatherforecast.databinding.LayerCardViewBinding
 import com.tolulonge.weatherforecast.presentation.adapter.PlacesListAdapter
 import com.tolulonge.weatherforecast.presentation.adapter.WindsListAdapter
 import com.tolulonge.weatherforecast.presentation.event.WeatherForecastEvent
 import com.tolulonge.weatherforecast.presentation.state.MainWeatherFragmentUiState
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecast
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
-import com.tolulonge.weatherforecast.presentation.state.model.toPresentationForecastGallery
 import com.tolulonge.weatherforecast.presentation.viewmodel.WeatherForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

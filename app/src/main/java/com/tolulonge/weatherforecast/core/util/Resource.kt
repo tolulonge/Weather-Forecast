@@ -1,6 +1,5 @@
 package com.tolulonge.weatherforecast.core.util
 
-
 enum class ApiStatus {
     SUCCESS,
     ERROR,

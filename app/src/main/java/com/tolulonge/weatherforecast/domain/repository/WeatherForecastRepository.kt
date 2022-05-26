@@ -4,7 +4,6 @@ package com.tolulonge.weatherforecast.domain.repository
 import com.tolulonge.weatherforecast.core.util.Resource
 import com.tolulonge.weatherforecast.domain.model.DomainForecast
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 
 interface WeatherForecastRepository {
 

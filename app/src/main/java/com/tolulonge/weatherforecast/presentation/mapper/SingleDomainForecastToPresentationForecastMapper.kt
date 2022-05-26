@@ -1,6 +1,5 @@
 package com.tolulonge.weatherforecast.presentation.mapper
 
-import com.tolulonge.weatherforecast.core.util.mapper.ListMapper
 import com.tolulonge.weatherforecast.core.util.mapper.Mapper
 import com.tolulonge.weatherforecast.domain.model.DomainForecast
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecast

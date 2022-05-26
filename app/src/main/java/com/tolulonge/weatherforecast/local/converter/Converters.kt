@@ -7,6 +7,9 @@ import com.tolulonge.weatherforecast.core.util.parser.JsonParser
 import com.tolulonge.weatherforecast.local.entities.LocalDay
 import com.tolulonge.weatherforecast.local.entities.LocalNight
 
+/**
+ * Converter for LocalDay and LocalNight to help Room to store the data
+ */
 @ProvidedTypeConverter
 class Converters(
     private val jsonParser: JsonParser

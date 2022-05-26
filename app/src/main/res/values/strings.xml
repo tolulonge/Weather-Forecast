@@ -1,16 +1,7 @@
 <resources>
     <string name="app_name">Weather Forecast</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="main_weather_fragment">Weather Forecast</string>
     <string name="single_place_weather_fragment">Estonia Forecast</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_data">No Data To Display\nTap here or swipe to refresh</string>
     <string name="no_data_image">No Data</string>
     <string name="refresh">Refresh</string>
@@ -19,4 +10,17 @@
     <string name="no_data_available">No Data Available</string>
     <string name="min_temp_single_place">Min: %1$s degrees</string>
     <string name="max_temp_single_place">Max: %1$s degrees</string>
+    <string name="today">Today</string>
+    <string name="date">20th May, 2022</string>
+    <string name="place_name">Estonia</string>
+    <string name="phenomenon_placeholder">Cloudy Weather</string>
+    <string name="_20th_nmay_n2022">20th \nMay \n2022</string>
+    <string name="showering_rain">Showering Rain</string>
+    <string name="tallin">Tallin</string>
+    <string name="kuusiku">Kuusiku</string>
+    <string name="wind_range">4.0 to 8.0</string>
+    <string name="wind_direction">East Wind</string>
+    <string name="day">Day</string>
+    <string name="winds">Winds</string>
+    <string name="places">Places</string>
 </resources>

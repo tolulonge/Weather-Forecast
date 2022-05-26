@@ -1,9 +1,7 @@
 package com.tolulonge.weatherforecast.local.mapper
 
 import com.tolulonge.weatherforecast.core.util.mapper.ToAndFroMapper
-import com.tolulonge.weatherforecast.data.model.DataDay
 import com.tolulonge.weatherforecast.data.model.DataNight
-import com.tolulonge.weatherforecast.local.entities.LocalDay
 import com.tolulonge.weatherforecast.local.entities.LocalNight
 
 class LocalDataNight(

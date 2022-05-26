@@ -32,7 +32,7 @@ class FakeLocalDataSourceImpl(
 
     override suspend fun deleteOldDataFromDb() {
         if(fakeDatabase.listOfLocalForecast.size > 4) {
-         //  fakeDatabase.listOfLocalForecast.subList(0, fakeDatabase.listOfLocalForecast.size - 4).clear()
+           fakeDatabase.listOfLocalForecast.subList(0, fakeDatabase.listOfLocalForecast.size - 4).clear()
         }
     }
 }

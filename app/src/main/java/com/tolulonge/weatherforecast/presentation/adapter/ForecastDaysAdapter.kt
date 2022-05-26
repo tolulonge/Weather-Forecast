@@ -13,9 +13,8 @@ import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 
 class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDaysViewHolder>() {
 
-    inner class ForecastDaysViewHolder(private val binding: ItemRvForecastDaysGalleryBinding) : RecyclerView.ViewHolder(binding.root) {
-
-
+    inner class ForecastDaysViewHolder(private val binding: ItemRvForecastDaysGalleryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(forecast: PresentationForecastGallery) {
             binding.apply {
                 txtPhenomenonForecastGallery.text = forecast.dPhenomenon
@@ -24,7 +23,8 @@ class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDay
                 forecastDaysCard.setOnClickListener {
                     onItemClickListener?.let {
                         forecast.date?.let { date ->
-                            it(date,adapterPosition) }
+                            it(date, adapterPosition)
+                        }
                     }
                 }
             }
@@ -32,7 +32,11 @@ class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDay
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastDaysViewHolder {
-        val view = ItemRvForecastDaysGalleryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = ItemRvForecastDaysGalleryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ForecastDaysViewHolder(view)
     }
 
@@ -69,7 +73,7 @@ class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDay
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    private var onItemClickListener: ((String,Int) -> Unit)? = null
+    private var onItemClickListener: ((String, Int) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (String, Int) -> Unit) {
         onItemClickListener = listener

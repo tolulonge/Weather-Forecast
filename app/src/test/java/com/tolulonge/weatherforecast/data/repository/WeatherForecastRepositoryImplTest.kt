@@ -36,23 +36,25 @@ class WeatherForecastRepositoryImplTest {
         val dataPlaceToDomainPlace = DataPlaceToDomainPlace()
         val dataWindToDomainWind = DataWindToDomainWind()
         val dataDayToDomainDay = DataDayToDomainDay(dataPlaceToDomainPlace, dataWindToDomainWind)
-        val dataNightToDomainNight = DataNightToDomainNight(dataPlaceToDomainPlace, dataWindToDomainWind)
+        val dataNightToDomainNight =
+            DataNightToDomainNight(dataPlaceToDomainPlace, dataWindToDomainWind)
         val localDataPlace = LocalDataPlace()
         val localDataWind = LocalDataWind()
         val localDataDay = LocalDataDay(localDataPlace, localDataWind)
         val localDataNight = LocalDataNight(localDataPlace, localDataWind)
         val dataForecastToDomainForecastMapper = DataForecastToDomainForecastMapper(
-            dataDayToDomainDay, dataNightToDomainNight)
+            dataDayToDomainDay, dataNightToDomainNight
+        )
         remoteDatasource = FakeRemoteDataSourceImpl()
         localDataSource = FakeLocalDataSourceImpl(
             fakeDatabase = FakeDatabase(),
-            localDataForecastListMapper=  LocalDataForecastListMapper(
+            localDataForecastListMapper = LocalDataForecastListMapper(
                 localDataDay, localDataNight
             ),
             singleDataForecastToLocalForecastMapper = SingleDataForecastToLocalForecastMapper(
                 localDataDay, localDataNight
             ),
-            )
+        )
 
         repository = WeatherForecastRepositoryImpl(
             remoteDataSource = remoteDatasource,
@@ -68,25 +70,23 @@ class WeatherForecastRepositoryImplTest {
 
 
     @Test
-    fun `fetch result from database returns expected result`(){
+    fun `fetch result from database returns expected result`() {
         runBlocking {
-          val response =  repository.getAllWeatherForecast().first()
+            val response = repository.getAllWeatherForecast().first()
 
             assertThat(response.data?.get(0)?.date).isEqualTo("2022-05-17")
         }
     }
 
     @Test
-    fun `should return weather forecast by date`(){
+    fun `should return weather forecast by date`() {
         runBlocking {
             val date = "2022-05-19"
-          val response =  repository.getWeatherForecastByDate(date).last()
+            val response = repository.getWeatherForecastByDate(date).last()
 
             assertThat(response.data?.day?.phenomenon).isEqualTo("Risk of glaze")
         }
     }
-
-
 
 
 }

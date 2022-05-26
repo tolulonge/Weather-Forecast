@@ -14,7 +14,8 @@ import java.util.*
 
 class WindsListAdapter : RecyclerView.Adapter<WindsListAdapter.WindViewHolder>() {
 
-    class WindViewHolder(private val binding: ItemRvWindWeatherBinding) : RecyclerView.ViewHolder(binding.root) {
+    class WindViewHolder(private val binding: ItemRvWindWeatherBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
 
         fun bind(wind: PresentationWind) {
@@ -28,7 +29,8 @@ class WindsListAdapter : RecyclerView.Adapter<WindsListAdapter.WindViewHolder>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WindViewHolder {
-        val view = ItemRvWindWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view =
+            ItemRvWindWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return WindViewHolder(view)
     }
 

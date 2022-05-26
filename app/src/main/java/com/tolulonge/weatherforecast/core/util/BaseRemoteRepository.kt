@@ -44,16 +44,16 @@ abstract class BaseRemoteRepository {
 
     fun getErrorMessage(responseBody: ResponseBody?): String {
         val errorValue = responseBody!!.string()
-         return try {
-                val jsonObject = JSONObject(errorValue)
-                when {
-                    jsonObject.has(MESSAGE_KEY) -> jsonObject.getString(MESSAGE_KEY)
-                    jsonObject.has(ERROR_KEY) -> jsonObject.getString(ERROR_KEY)
-                    jsonObject.has(ERRORS_KEY) -> jsonObject.getString(ERRORS_KEY)
-                    else -> "Something wrong happened"
-                }
-            } catch (e: Exception) {
-                "Something wrong happened"
+        return try {
+            val jsonObject = JSONObject(errorValue)
+            when {
+                jsonObject.has(MESSAGE_KEY) -> jsonObject.getString(MESSAGE_KEY)
+                jsonObject.has(ERROR_KEY) -> jsonObject.getString(ERROR_KEY)
+                jsonObject.has(ERRORS_KEY) -> jsonObject.getString(ERRORS_KEY)
+                else -> "Something wrong happened"
             }
+        } catch (e: Exception) {
+            "Something wrong happened"
+        }
     }
 }

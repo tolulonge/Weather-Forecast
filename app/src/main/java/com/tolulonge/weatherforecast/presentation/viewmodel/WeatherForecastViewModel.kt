@@ -6,7 +6,6 @@ import com.tolulonge.weatherforecast.core.util.Resource
 import com.tolulonge.weatherforecast.domain.usecases.WeatherForecastUseCases
 import com.tolulonge.weatherforecast.presentation.event.WeatherForecastEvent
 import com.tolulonge.weatherforecast.presentation.mapper.DomainForecastToPresentationForecastMapper
-import com.tolulonge.weatherforecast.presentation.mapper.SingleDomainForecastToPresentationForecastMapper
 import com.tolulonge.weatherforecast.presentation.state.MainWeatherFragmentUiState
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecast
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +17,7 @@ import javax.inject.Inject
 class WeatherForecastViewModel @Inject constructor(
     private val weatherForecastUseCases: WeatherForecastUseCases,
     private val domainForecastToPresentationForecastMapper: DomainForecastToPresentationForecastMapper,
-    private val singleDomainForecastToPresentationForecastMapper: SingleDomainForecastToPresentationForecastMapper
-): ViewModel() {
+) : ViewModel() {
 
     private val _allWeatherForecast =
         MutableStateFlow<List<PresentationForecast>>(emptyList())
@@ -27,7 +25,6 @@ class WeatherForecastViewModel @Inject constructor(
 
     private val _remoteUpdateResponse = MutableSharedFlow<MainWeatherFragmentUiState>()
     val remoteUpdateResponse = _remoteUpdateResponse.asSharedFlow()
-
 
 
     init {
@@ -48,51 +45,64 @@ class WeatherForecastViewModel @Inject constructor(
     private fun getWeatherForecasts() {
         viewModelScope.launch {
             weatherForecastUseCases.getAllWeatherForecastDb()
-                .collect {
-                        result ->
+                .collect { result ->
                     when (result) {
                         is Resource.Success -> {
                             result.data?.let { forecasts ->
-                                _allWeatherForecast.value = domainForecastToPresentationForecastMapper.map(
+                                _allWeatherForecast.value =
+                                    domainForecastToPresentationForecastMapper.map(
                                         forecasts
                                     ).map { presentationForecast ->
                                         modifyPresentationForecast(presentationForecast)
                                     }
-                                }
                             }
+                        }
                         else -> {}
                     }
                 }
         }
     }
 
-    private fun getFromRemoteAndUpdateDb(){
+    private fun getFromRemoteAndUpdateDb() {
         viewModelScope.launch {
             weatherForecastUseCases.getWeatherForecastFromRemote()
                 .collect { response ->
-                    when(response){
+                    when (response) {
                         is Resource.Error -> {
                             _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Loading(false))
-                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Error(response.message ?: "An Error Occurred"))
+                            _remoteUpdateResponse.emit(
+                                MainWeatherFragmentUiState.Error(
+                                    response.message ?: "An Error Occurred"
+                                )
+                            )
                         }
                         is Resource.Loading -> {
-                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Loading(response.isLoading,response.message ?: "Loading"))
+                            _remoteUpdateResponse.emit(
+                                MainWeatherFragmentUiState.Loading(
+                                    response.isLoading,
+                                    response.message ?: "Loading"
+                                )
+                            )
                         }
                         is Resource.Success -> {
-                            _remoteUpdateResponse.emit(MainWeatherFragmentUiState.Loaded(response.data?: "Success"))
+                            _remoteUpdateResponse.emit(
+                                MainWeatherFragmentUiState.Loaded(
+                                    response.data ?: "Success"
+                                )
+                            )
                         }
                     }
                 }
         }
     }
 
-    private fun convertTempValueToWords(tempValue: String?): String?{
+    private fun convertTempValueToWords(tempValue: String?): String? {
         val tempValueInInt = tempValue?.toDouble()?.toInt() ?: return null
         return weatherForecastUseCases.convertTemperatureValueToWords(tempValueInInt)
     }
 
-    private fun modifyPresentationForecast(presentationForecast: PresentationForecast) : PresentationForecast{
-        return  presentationForecast.copy(
+    private fun modifyPresentationForecast(presentationForecast: PresentationForecast): PresentationForecast {
+        return presentationForecast.copy(
             date = weatherForecastUseCases.getReadableDate(presentationForecast.date),
             day = presentationForecast.day?.copy(
                 tempmax = convertTempValueToWords(presentationForecast.day.tempmax),

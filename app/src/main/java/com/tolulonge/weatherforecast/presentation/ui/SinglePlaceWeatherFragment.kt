@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.core.util.loadGifs
@@ -17,7 +16,7 @@ import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 class SinglePlaceWeatherFragment : Fragment() {
 
     private var _binding: FragmentSinglePlaceWeatherBinding? = null
-    private val args : SinglePlaceWeatherFragmentArgs by navArgs()
+    private val args: SinglePlaceWeatherFragmentArgs by navArgs()
 
     private val binding get() = _binding!!
 
@@ -41,8 +40,8 @@ class SinglePlaceWeatherFragment : Fragment() {
         _binding = null
     }
 
-    private fun setUpViews(presentationPlace: PresentationPlace, date: String){
-        with(presentationPlace){
+    private fun setUpViews(presentationPlace: PresentationPlace, date: String) {
+        with(presentationPlace) {
             binding.apply {
                 imgPhenomenonSinglePlace.loadGifs(phenomenon ?: "")
                 ivSinglePlaceWeatherIcon.loadHeaderGifs(phenomenon ?: "")

@@ -6,16 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.core.util.hide
 import com.tolulonge.weatherforecast.core.util.show
-import com.tolulonge.weatherforecast.core.util.showSnackBar
-import com.tolulonge.weatherforecast.core.util.showSnackBarWithAction
 import com.tolulonge.weatherforecast.databinding.FragmentForecastDaysGalleryBinding
 import com.tolulonge.weatherforecast.presentation.adapter.ForecastDaysAdapter
-import com.tolulonge.weatherforecast.presentation.event.WeatherForecastEvent
-import com.tolulonge.weatherforecast.presentation.state.MainWeatherFragmentUiState
 import com.tolulonge.weatherforecast.presentation.state.model.toPresentationForecastGallery
 import com.tolulonge.weatherforecast.presentation.viewmodel.WeatherForecastViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -43,8 +38,11 @@ class ForecastDaysGalleryFragment : Fragment() {
         setUpRecyclerView()
         subscribeToObservables()
 
-        forecastDaysAdapter.setOnItemClickListener {date, position ->
-            val action = ForecastDaysGalleryFragmentDirections.actionForecastDaysGalleryToSpecificWeatherFragment(date)
+        forecastDaysAdapter.setOnItemClickListener { date, position ->
+            val action =
+                ForecastDaysGalleryFragmentDirections.actionForecastDaysGalleryToSpecificWeatherFragment(
+                    date
+                )
             if (position == 0) {
                 findNavController().navigate(R.id.action_forecastDaysGallery_to_fragment_main_weather)
             } else {
@@ -69,7 +67,7 @@ class ForecastDaysGalleryFragment : Fragment() {
 
             weatherForecastViewModel.allWeatherForecast.collectLatest { state ->
                 handleDataAndEmptyScenarios(state.isNotEmpty())
-                if (state.isNotEmpty()){
+                if (state.isNotEmpty()) {
                     forecastDaysAdapter.differ.submitList(state.map { it.toPresentationForecastGallery() })
                 }
             }
@@ -78,12 +76,12 @@ class ForecastDaysGalleryFragment : Fragment() {
     }
 
     private fun handleDataAndEmptyScenarios(isAvailable: Boolean) {
-        if(isAvailable){
+        if (isAvailable) {
             binding.apply {
                 noDataImageView.hide()
                 noDataTextView.hide()
             }
-        }else{
+        } else {
             binding.apply {
                 noDataImageView.show()
                 noDataTextView.show()

@@ -1,29 +1,18 @@
 package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tolulonge.weatherforecast.R
 import com.tolulonge.weatherforecast.core.util.*
-import com.tolulonge.weatherforecast.databinding.FragmentMainWeatherBinding
 import com.tolulonge.weatherforecast.databinding.FragmentSpecificWeatherBinding
-import com.tolulonge.weatherforecast.databinding.LayerCardViewBinding
-import com.tolulonge.weatherforecast.presentation.adapter.PlacesListAdapter
-import com.tolulonge.weatherforecast.presentation.adapter.WindsListAdapter
 import com.tolulonge.weatherforecast.presentation.event.WeatherForecastEvent
-import com.tolulonge.weatherforecast.presentation.state.MainWeatherFragmentUiState
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecast
-import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
-import com.tolulonge.weatherforecast.presentation.state.model.toPresentationForecastGallery
 import com.tolulonge.weatherforecast.presentation.viewmodel.SpecificWeatherForecastViewModel
-import com.tolulonge.weatherforecast.presentation.viewmodel.WeatherForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.util.*
@@ -83,7 +72,7 @@ class SpecificWeatherFragment : Fragment() {
 
         with(presentationForecast){
             binding.layerDayCard.apply {
-                txtTemperatureRange.text = "${day?.tempmin ?: "nil"} to ${day?.tempmax ?: "nil"} degrees"
+                txtTemperatureRange.text =     "${day?.tempmin ?: "nil"} to ${day?.tempmax ?: "nil"} degrees"
                 txtPhenomenon.text = day?.phenomenon ?: "No data"
                 txtMainDescription.text = day?.text ?: "No data"
                 imgPhenomenon.loadGifs(day?.phenomenon?.lowercase(Locale.getDefault()) ?: "")

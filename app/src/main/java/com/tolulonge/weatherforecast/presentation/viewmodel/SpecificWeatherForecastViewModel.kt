@@ -1,6 +1,5 @@
 package com.tolulonge.weatherforecast.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tolulonge.weatherforecast.core.util.Resource
@@ -17,12 +16,11 @@ import javax.inject.Inject
 class SpecificWeatherForecastViewModel @Inject constructor(
     private val weatherForecastUseCases: WeatherForecastUseCases,
     private val singleDomainForecastToPresentationForecastMapper: SingleDomainForecastToPresentationForecastMapper
-): ViewModel() {
+) : ViewModel() {
 
 
-    private val _specificDayWeather = MutableStateFlow(PresentationForecast(null,null,null))
+    private val _specificDayWeather = MutableStateFlow(PresentationForecast(null, null, null))
     val specificDayWeather = _specificDayWeather.asStateFlow()
-
 
 
     fun onEvent(event: WeatherForecastEvent) {
@@ -35,7 +33,7 @@ class SpecificWeatherForecastViewModel @Inject constructor(
     }
 
 
-    private fun convertTempValueToWords(tempValue: String?): String?{
+    private fun convertTempValueToWords(tempValue: String?): String? {
         val tempValueInInt = tempValue?.toDouble()?.toInt() ?: return null
         return weatherForecastUseCases.convertTemperatureValueToWords(tempValueInInt)
     }
@@ -45,16 +43,21 @@ class SpecificWeatherForecastViewModel @Inject constructor(
      */
     private fun getSpecificDayWeatherForecast(date: String) {
         viewModelScope.launch {
-            weatherForecastUseCases.getWeatherForecastByDate(weatherForecastUseCases.getDefaultDateFormat(date))
+            weatherForecastUseCases.getWeatherForecastByDate(
+                weatherForecastUseCases.getDefaultDateFormat(
+                    date
+                )
+            )
                 .collect { result ->
                     when (result) {
                         is Resource.Success -> {
                             result.data?.let { forecast ->
                                 _specificDayWeather.value =
                                     modifyPresentationForecast(
-                                    singleDomainForecastToPresentationForecastMapper.map(
-                                     forecast
-                                ))
+                                        singleDomainForecastToPresentationForecastMapper.map(
+                                            forecast
+                                        )
+                                    )
                             }
                         }
                         else -> {}
@@ -64,8 +67,8 @@ class SpecificWeatherForecastViewModel @Inject constructor(
     }
 
 
-    private fun modifyPresentationForecast(presentationForecast: PresentationForecast) : PresentationForecast{
-        return  presentationForecast.copy(
+    private fun modifyPresentationForecast(presentationForecast: PresentationForecast): PresentationForecast {
+        return presentationForecast.copy(
             date = weatherForecastUseCases.getReadableDate(presentationForecast.date),
             day = presentationForecast.day?.copy(
                 tempmax = convertTempValueToWords(presentationForecast.day.tempmax),
