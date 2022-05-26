@@ -26,8 +26,8 @@ class WeatherForecastRepositoryImpl(
     }
 
     override suspend fun fetchFromRemoteAndUpdateDb() : Flow<Resource<String>> {
-       return flow {
-           emit(Resource.Loading(true, "Refreshing..."))
+        return flow {
+            emit(Resource.Loading(true, "Refreshing..."))
            val response = remoteDataSource.getRemoteWeatherForecast()
            val dataForecastList = when (response.status) {
                ApiStatus.SUCCESS -> {

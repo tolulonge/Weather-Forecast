@@ -13,7 +13,7 @@
             android:id="@+id/motion_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutDescription="@xml/main_weather_scene">
+            app:layoutDescription="@xml/specific_weather_scene">
 
             <LinearLayout
                 android:id="@+id/empty_views_container"
@@ -85,8 +85,7 @@
                 android:lineSpacingExtra="16dp"
                 android:textColor="#ffffff"
                 android:textSize="32sp"
-                app:layout_constraintStart_toStartOf="@+id/txt_today"
-                app:layout_constraintTop_toBottomOf="@+id/txt_today" />
+               />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/first_vertical_guideline"
@@ -94,8 +93,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.02" />
-
-
 
 
             <ImageView

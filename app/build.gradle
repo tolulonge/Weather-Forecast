@@ -85,6 +85,5 @@ dependencies {
 
     // Gifs Loading
     implementation "io.coil-kt:coil-gif:2.1.0"
-    debugImplementation "androidx.fragment:fragment-testing:1.5.0-rc01"
 
 }
