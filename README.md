@@ -17,8 +17,6 @@ With layers including;
 
 Technologies used include: Flow, Motion Layout, Room, Coil, Navigation Component, MVVM, Retrofit, Kotlin, Clean Architecture
 
-Screenshots
-![Screenshot_20220526-095906_Weather Forecast]
 Main Weather Screen             |  Main Weather Screen
 :-------------------------:|:-------------------------:
 ![Main Screen 1](https://user-images.githubusercontent.com/40584796/170474625-b5ae3716-ae15-4e58-ac6d-6856ef4675ff.jpg)|![Main Screen 2](https://user-images.githubusercontent.com/40584796/170474776-7868692b-d237-47a8-abc7-20271f67cf16.jpg)
