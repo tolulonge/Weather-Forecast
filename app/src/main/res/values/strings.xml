@@ -15,4 +15,8 @@
     <string name="no_data_image">No Data</string>
     <string name="refresh">Refresh</string>
     <string name="places_temp_range">Min: %1$s degrees\nMax: %2$s degrees</string>
+    <string name="no_data_forecast">No Data Available</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="min_temp_single_place">Min: %1$s degrees</string>
+    <string name="max_temp_single_place">Max: %1$s degrees</string>
 </resources>

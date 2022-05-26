@@ -2,10 +2,12 @@ package com.tolulonge.weatherforecast.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tolulonge.weatherforecast.R
+import com.tolulonge.weatherforecast.core.util.loadHeaderGifs
 import com.tolulonge.weatherforecast.databinding.ItemRvPlaceWeatherBinding
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 
@@ -18,6 +20,7 @@ class PlacesListAdapter : RecyclerView.Adapter<PlacesListAdapter.PlacesViewHolde
                 txtPlaceName.text = presentationPlace.name
                 txtPhenomenonName.text = presentationPlace.phenomenon
                 txtTemperatureRangePlace.text = binding.root.resources.getString(R.string.places_temp_range,presentationPlace.tempmin?: "_", presentationPlace.tempmax ?: "_" )
+                imgPhenomenonDesc.loadHeaderGifs(presentationPlace.phenomenon ?: "")
                 imgOpenDetailsPage.setOnClickListener{
                     onItemClickListener?.let {
                         it(presentationPlace)
@@ -33,8 +36,13 @@ class PlacesListAdapter : RecyclerView.Adapter<PlacesListAdapter.PlacesViewHolde
     }
 
     override fun onBindViewHolder(holder: PlacesViewHolder, position: Int) {
+        val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.from_top)
         val currentPlace = differ.currentList[position]
-        holder.bind(currentPlace)
+        holder.apply {
+            animation.duration = 1000
+            itemView.startAnimation(animation)
+            bind(currentPlace)
+        }
     }
 
     override fun getItemCount(): Int {

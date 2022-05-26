@@ -1,41 +1,40 @@
 package com.tolulonge.weatherforecast.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.core.os.bundleOf
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tolulonge.weatherforecast.R
-import com.tolulonge.weatherforecast.core.util.hide
-import com.tolulonge.weatherforecast.core.util.show
-import com.tolulonge.weatherforecast.core.util.showSnackBar
-import com.tolulonge.weatherforecast.core.util.showSnackBarWithAction
+import com.tolulonge.weatherforecast.core.util.*
 import com.tolulonge.weatherforecast.databinding.FragmentMainWeatherBinding
+import com.tolulonge.weatherforecast.databinding.LayerCardViewBinding
 import com.tolulonge.weatherforecast.presentation.adapter.PlacesListAdapter
 import com.tolulonge.weatherforecast.presentation.adapter.WindsListAdapter
 import com.tolulonge.weatherforecast.presentation.event.WeatherForecastEvent
 import com.tolulonge.weatherforecast.presentation.state.MainWeatherFragmentUiState
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecast
+import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 import com.tolulonge.weatherforecast.presentation.state.model.toPresentationForecastGallery
-import com.tolulonge.weatherforecast.presentation.viewmodel.MainWeatherViewModel
+import com.tolulonge.weatherforecast.presentation.viewmodel.WeatherForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import java.util.*
 
 @AndroidEntryPoint
 class MainWeatherFragment : Fragment() {
 
     private var _binding: FragmentMainWeatherBinding? = null
-
     private val binding get() = _binding!!
     private lateinit var placesListDayAdapter: PlacesListAdapter
     private lateinit var placesListNightAdapter: PlacesListAdapter
     private lateinit var windsListDayAdapter: WindsListAdapter
     private lateinit var windsListNightAdapter: WindsListAdapter
     private var allWeatherForecast: List<PresentationForecast>? = null
-    private val mainWeatherViewModel: MainWeatherViewModel by viewModels()
+    private val weatherForecastViewModel: WeatherForecastViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,36 +54,21 @@ class MainWeatherFragment : Fragment() {
 
 
         binding.imgSwitchDay.setOnClickListener {
-            // Navigate to gallery and fetch all weather forecasts
-            allWeatherForecast?.let { list ->
-                val action = MainWeatherFragmentDirections.actionFragmentMainWeatherToForecastDaysGallery(
-                     list.map{it.toPresentationForecastGallery()}.toTypedArray()
-                )
-                findNavController().navigate(action)
-            }
+            findNavController().navigate(R.id.action_fragment_main_weather_to_forecastDaysGallery)
         }
+
 
         binding.noDataTextView.setOnClickListener {
             reloadWeatherForecasts()
         }
 
 
-        placesListDayAdapter.setOnItemClickListener {
-            val todayWeather = allWeatherForecast?.get(0) ?:  return@setOnItemClickListener
-
-            val action = MainWeatherFragmentDirections.actionFragmentMainWeatherToFragmentSinglePlaceWeather(
-                todayWeather.date!!,it
-            )
-            findNavController().navigate(action)
+        placesListDayAdapter.setOnItemClickListener {presentationPlace ->
+            navigateToPlaceDetails(presentationPlace)
         }
 
-        placesListNightAdapter.setOnItemClickListener {
-            val todayWeather = allWeatherForecast?.get(0) ?:  return@setOnItemClickListener
-
-            val action = MainWeatherFragmentDirections.actionFragmentMainWeatherToFragmentSinglePlaceWeather(
-                todayWeather.date!!,it
-            )
-            findNavController().navigate(action)
+        placesListNightAdapter.setOnItemClickListener {presentationPlace ->
+            navigateToPlaceDetails(presentationPlace)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -92,6 +76,20 @@ class MainWeatherFragment : Fragment() {
         }
 
 
+    }
+
+    private fun navigateToPlaceDetails(presentationPlace: PresentationPlace) {
+        val todayWeather = allWeatherForecast?.get(0) ?: return
+
+        todayWeather.date?.let {
+            val action =
+                MainWeatherFragmentDirections.actionFragmentMainWeatherToFragmentSinglePlaceWeather(
+                    it, presentationPlace, presentationPlace.name ?: "Place Forecast"
+                )
+            findNavController().navigate(action)
+        } ?: run {
+            binding.root.showSnackBar(getString(R.string.no_data_available))
+        }
     }
 
     override fun onDestroyView() {
@@ -131,15 +129,24 @@ class MainWeatherFragment : Fragment() {
     }
 
     private fun setUpViews(presentationForecast: PresentationForecast) {
-        with(presentationForecast){
-            binding.txtDate.text = presentationForecast.date
+        binding.overallWeatherDescGif.loadHeaderGifs(presentationForecast.day?.phenomenon ?: "")
+        binding.txtDate.text = presentationForecast.date
+        binding.imgSwitchDay.loadGifs(R.drawable.calendar)
 
+        with(presentationForecast){
             binding.layerDayCard.apply {
                 txtTemperatureRange.text = "${day?.tempmin ?: "nil"} to ${day?.tempmax ?: "nil"} degrees"
                 txtPhenomenon.text = day?.phenomenon ?: "No data"
                 txtMainDescription.text = day?.text ?: "No data"
                 txtSeaDescription.text = day?.sea ?: "No data"
                 txtPeipsiInfo.text = day?.peipsi ?: "No data"
+                if (day?.places.isNullOrEmpty()) txtPlacesDesc.text = "Places: No Data"
+                if (day?.winds.isNullOrEmpty()) txtWindsDesc.text = "Winds: No Data"
+                imgPhenomenon.loadGifs(day?.phenomenon?.lowercase(Locale.getDefault()) ?: "")
+                imgMainDescription.loadGifs(R.drawable.description)
+                imgSeaDescription.loadGifs(R.drawable.tide)
+                imgPeipsiInfo.loadGifs(R.drawable.signposts)
+                imgTemperature.loadGifs(R.drawable.temperature)
             }
         }
         with(presentationForecast){
@@ -149,6 +156,13 @@ class MainWeatherFragment : Fragment() {
                 txtMainDescription.text = night?.text ?: "No data"
                 txtSeaDescription.text = night?.sea ?: "No data"
                 txtPeipsiInfo.text = night?.peipsi ?: "No data"
+                if (night?.places.isNullOrEmpty()) txtPlacesDesc.text = "Places: No Data"
+                if (night?.winds.isNullOrEmpty()) txtWindsDesc.text = "Winds: No Data"
+                imgPhenomenon.loadGifs(night?.phenomenon?.lowercase(Locale.getDefault()) ?: "")
+                imgMainDescription.loadGifs(R.drawable.description)
+                imgSeaDescription.loadGifs(R.drawable.tide)
+                imgPeipsiInfo.loadGifs(R.drawable.signposts)
+                imgTemperature.loadGifs(R.drawable.temperature)
             }
         }
     }
@@ -157,7 +171,7 @@ class MainWeatherFragment : Fragment() {
     private fun subscribeToObservables() {
         lifecycleScope.launchWhenStarted {
 
-            mainWeatherViewModel.allWeatherForecast.collectLatest { state ->
+            weatherForecastViewModel.allWeatherForecast.collectLatest { state ->
                 handleDataAndEmptyScenarios(state.isNotEmpty())
                     if (state.isNotEmpty()){
                         placesListDayAdapter.differ.submitList(state[0].day?.places)
@@ -166,12 +180,13 @@ class MainWeatherFragment : Fragment() {
                         windsListNightAdapter.differ.submitList(state[0].night?.winds)
                         allWeatherForecast = state
                         setUpViews(state[0])
+
                 }
             }
         }
 
         lifecycleScope.launchWhenStarted {
-            mainWeatherViewModel.remoteUpdateResponse.collectLatest {state ->
+            weatherForecastViewModel.remoteUpdateResponse.collectLatest { state ->
                 when(state){
                     MainWeatherFragmentUiState.Empty -> {
                     }
@@ -220,12 +235,10 @@ class MainWeatherFragment : Fragment() {
                 noDataTextView.show()
             }
         }
-
-
     }
 
     private fun reloadWeatherForecasts(){
-        mainWeatherViewModel.onEvent(WeatherForecastEvent.RefreshWeatherForecast)
+        weatherForecastViewModel.onEvent(WeatherForecastEvent.RefreshWeatherForecast)
     }
 
 }

@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#C92A639E"
+        android:background="@color/black_600"
         android:padding="16dp">
 
         <TextView
@@ -45,7 +45,7 @@
             android:id="@+id/img_phenomenon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/moderate_rain_icon"
+            android:src="@drawable/rain"
             app:layout_constraintBottom_toBottomOf="@+id/txt_phenomenon"
             app:layout_constraintStart_toStartOf="@+id/img_temperature"
             app:layout_constraintTop_toTopOf="@+id/txt_phenomenon" />
@@ -116,10 +116,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_places_weather"
-            android:layout_marginTop="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/txt_peipsi_info"
+            app:layout_constraintTop_toBottomOf="@id/txt_places_desc"
             app:layout_constraintEnd_toEndOf="parent"
             tools:itemCount="5"
             tools:listitem="@layout/item_rv_place_weather"
@@ -130,20 +129,31 @@
             />
 
         <TextView
+            android:id="@+id/txt_winds_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Winds"
             android:textSize="16sp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@id/rv_winds_weather"
             app:layout_constraintStart_toStartOf="@id/rv_winds_weather"
-            app:layout_constraintTop_toBottomOf="@+id/rv_places_weather" />
+            app:layout_constraintTop_toBottomOf="@id/rv_places_weather" />
+
+        <TextView
+            android:id="@+id/txt_places_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Places"
+            android:textSize="16sp"
+           android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@id/rv_winds_weather"
+            app:layout_constraintTop_toBottomOf="@id/txt_peipsi_info" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_winds_weather"
-            android:layout_marginTop="24dp"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            app:layout_constraintTop_toBottomOf="@id/rv_places_weather"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txt_winds_desc"
             app:layout_constraintEnd_toEndOf="parent"
             tools:itemCount="5"
             tools:listitem="@layout/item_rv_wind_weather"

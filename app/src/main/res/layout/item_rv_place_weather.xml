@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/img_phenomenon_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:src="@drawable/clear_sky"
             app:layout_constraintBottom_toBottomOf="parent"

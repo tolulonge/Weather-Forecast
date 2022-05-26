@@ -1,5 +1,6 @@
 package com.tolulonge.weatherforecast.data.repository
 
+import android.util.Log
 import com.tolulonge.weatherforecast.core.util.ApiStatus
 import com.tolulonge.weatherforecast.core.util.Resource
 import com.tolulonge.weatherforecast.domain.mapper.DataForecastToDomainForecastMapper
@@ -36,7 +37,7 @@ class WeatherForecastRepositoryImpl(
                ApiStatus.ERROR -> {
                    response.message?.let {
                        emit(Resource.Error(it))
-                   } ?: emit(Resource.Error("An unknown error occurred while fetching data"))
+                   } ?: emit(Resource.Error("Can't Refresh Weather Now, Check your internet connection"))
                    null
                }
                ApiStatus.LOADING -> {
@@ -46,6 +47,7 @@ class WeatherForecastRepositoryImpl(
 
            dataForecastList?.let { results ->
               localDataSource.insertWeatherForecasts(results)
+               localDataSource.deleteOldDataFromDb()
                emit(Resource.Loading(false))
            }
            emit(Resource.Loading(false))
@@ -57,11 +59,10 @@ class WeatherForecastRepositoryImpl(
             emit(Resource.Loading(true))
             val localWeatherForecast = localDataSource.getWeatherForecastByDate(date)
             emit(Resource.Loading(false))
-            localWeatherForecast.map {
-                emit(Resource.Success(
-                    singleDataForecastToDomainForecastMapper.map(it)
+            emit(Resource.Success(
+                    singleDataForecastToDomainForecastMapper.map(localWeatherForecast)
                 ))
-            }
+
         }
     }
 

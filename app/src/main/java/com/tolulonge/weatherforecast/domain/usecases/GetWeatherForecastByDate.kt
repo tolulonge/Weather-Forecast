@@ -1,5 +1,6 @@
 package com.tolulonge.weatherforecast.domain.usecases
 
+import android.util.Log
 import com.tolulonge.weatherforecast.core.util.Resource
 import com.tolulonge.weatherforecast.domain.model.DomainForecast
 import com.tolulonge.weatherforecast.domain.repository.WeatherForecastRepository

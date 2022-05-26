@@ -14,7 +14,18 @@
     <color name="orange_500">#bd691a</color>
     <color name="orange_200">#f49849</color>
     <color name="orange_700">#873d00</color>
+
+    <color name="light_gray">#E6E6E6</color>
+
+    <color name="black_500">#212121</color>
+    <color name="black_600">#1B1A1A</color>
+    <color name="black_200">#484848</color>
+    <color name="black_700">#000000</color>
+    <color name="red_500">#ff5722</color>
+    <color name="red_200">#ff8a50</color>
+    <color name="red_700">#c41c00</color>
+    <color name="yellow_700">#7E7103</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="light_gray">#E6E6E6</color>
+
 </resources>

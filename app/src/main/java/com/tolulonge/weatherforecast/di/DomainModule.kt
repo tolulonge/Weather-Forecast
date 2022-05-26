@@ -24,7 +24,8 @@ object DomainModule {
             getReadableDate = GetReadableDate(),
             convertTemperatureValueToWords = convertTemperatureValueToWords,
             findTempInStringAndConvert = FindTempInStringAndConvert(convertTemperatureValueToWords),
-            getWeatherForecastFromRemote = GetWeatherForecastFromRemote(repository)
+            getWeatherForecastFromRemote = GetWeatherForecastFromRemote(repository),
+            getDefaultDateFormat = GetDefaultDateFormat()
         )
     }
 

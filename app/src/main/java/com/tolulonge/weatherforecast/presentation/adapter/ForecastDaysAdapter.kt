@@ -6,6 +6,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.tolulonge.weatherforecast.core.util.loadHeaderGifs
 import com.tolulonge.weatherforecast.databinding.ItemRvForecastDaysGalleryBinding
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationForecastGallery
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
@@ -19,9 +20,11 @@ class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDay
             binding.apply {
                 txtPhenomenonForecastGallery.text = forecast.dPhenomenon
                 txtForecastDate.text = forecast.date
+                imgPhenomenonDesc.loadHeaderGifs(forecast.dPhenomenon ?: "")
                 forecastDaysCard.setOnClickListener {
                     onItemClickListener?.let {
-                        it(forecast)
+                        forecast.date?.let { date ->
+                            it(date,adapterPosition) }
                     }
                 }
             }
@@ -38,6 +41,7 @@ class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDay
             AnimationUtils.loadAnimation(holder.itemView.context, android.R.anim.slide_in_left)
         val presentationForecast = differ.currentList[position]
         holder.apply {
+            animation.duration = 2000
             itemView.startAnimation(animation)
             bind(presentationForecast)
         }
@@ -65,9 +69,9 @@ class ForecastDaysAdapter : RecyclerView.Adapter<ForecastDaysAdapter.ForecastDay
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    private var onItemClickListener: ((PresentationForecastGallery) -> Unit)? = null
+    private var onItemClickListener: ((String,Int) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (PresentationForecastGallery) -> Unit) {
+    fun setOnItemClickListener(listener: (String, Int) -> Unit) {
         onItemClickListener = listener
     }
 

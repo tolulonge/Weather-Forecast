@@ -9,5 +9,6 @@ class WeatherForecastUseCases(
     val getWeatherForecastByDate: GetWeatherForecastByDate,
     val getReadableDate: GetReadableDate,
     val convertTemperatureValueToWords: ConvertTemperatureValueToWords,
-    val findTempInStringAndConvert: FindTempInStringAndConvert
+    val findTempInStringAndConvert: FindTempInStringAndConvert,
+    val getDefaultDateFormat: GetDefaultDateFormat
 )

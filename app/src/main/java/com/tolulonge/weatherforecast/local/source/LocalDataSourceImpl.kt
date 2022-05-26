@@ -25,10 +25,12 @@ class LocalDataSourceImpl(
         forecastDao.insertAllWeatherForecasts(localDataForecastListMapper.from(allWeatherForecasts))
     }
 
-    override suspend fun getWeatherForecastByDate(date: String): Flow<DataForecast> {
-       return forecastDao.getWeatherForecastByDate(date).map {
-            singleDataForecastToLocalForecastMapper.mTo(it)
-        }
+    override suspend fun getWeatherForecastByDate(date: String): DataForecast {
+       return singleDataForecastToLocalForecastMapper.mTo(forecastDao.getWeatherForecastByDate(date))
+    }
+
+    override suspend fun deleteOldDataFromDb() {
+        forecastDao.deleteOldDataFromDb()
     }
 
 }

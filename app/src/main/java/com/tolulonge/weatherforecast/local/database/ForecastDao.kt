@@ -17,6 +17,9 @@ interface ForecastDao {
     suspend fun insertAllWeatherForecasts(allWeatherForecasts: List<LocalForecast>)
 
     @Query("SELECT * FROM weather_forecast_table WHERE weather_forecast_date = :date")
-    fun getWeatherForecastByDate(date: String): Flow<LocalForecast>
+    suspend fun getWeatherForecastByDate(date: String): LocalForecast
+
+    @Query("DELETE FROM weather_forecast_table where weather_forecast_date NOT IN (SELECT weather_forecast_date from weather_forecast_table ORDER BY weather_forecast_date DESC LIMIT 4)")
+    suspend fun deleteOldDataFromDb()
 
 }

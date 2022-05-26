@@ -33,7 +33,7 @@ abstract class BaseRemoteRepository {
                         Resource.Error(getErrorMessage(body))
                     }
                     is SocketTimeoutException -> Resource.Error("An error has occurred, try again later.")
-                    is IOException -> Resource.Error("Check your internet connection and try again.")
+                    is IOException -> Resource.Error("Can't refresh weather now, check your internet connection and try again.")
                     else -> Resource.Error(
                         e.localizedMessage ?: "An error has occurred, try again later."
                     )
@@ -44,12 +44,8 @@ abstract class BaseRemoteRepository {
 
     fun getErrorMessage(responseBody: ResponseBody?): String {
         val errorValue = responseBody!!.string()
-        return if (errorValue.contains("Unauthorized"))
-            errorValue
-        else {
-            try {
+         return try {
                 val jsonObject = JSONObject(errorValue)
-
                 when {
                     jsonObject.has(MESSAGE_KEY) -> jsonObject.getString(MESSAGE_KEY)
                     jsonObject.has(ERROR_KEY) -> jsonObject.getString(ERROR_KEY)
@@ -59,6 +55,5 @@ abstract class BaseRemoteRepository {
             } catch (e: Exception) {
                 "Something wrong happened"
             }
-        }
     }
 }

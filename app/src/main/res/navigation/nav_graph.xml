@@ -12,27 +12,34 @@
         tools:layout="@layout/fragment_main_weather">
 
         <action
-            android:id="@+id/action_fragment_main_weather_to_forecastDaysGallery"
-            app:destination="@id/forecastDaysGallery" />
-        <action
             android:id="@+id/action_fragment_main_weather_to_fragment_single_place_weather"
-            app:destination="@id/fragment_single_place_weather" />
+            app:destination="@id/fragment_single_place_weather"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_fragment_main_weather_to_forecastDaysGallery"
+            app:destination="@id/forecastDaysGallery"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/fragment_single_place_weather"
         android:name="com.tolulonge.weatherforecast.presentation.ui.SinglePlaceWeatherFragment"
-        android:label="@string/single_place_weather_fragment"
+        android:label= "{placeName} Forecast"
         tools:layout="@layout/fragment_single_place_weather">
 
         <action
             android:id="@+id/action_fragment_single_place_weather_to_fragment_main_weather"
-            app:destination="@id/fragment_main_weather" />
+            app:destination="@id/fragment_main_weather"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
         <argument
             android:name="weatherDate"
             app:argType="string" />
         <argument
             android:name="placeDetails"
             app:argType="com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace" />
+        <argument android:name="placeName" />
     </fragment>
     <fragment
         android:id="@+id/forecastDaysGallery"
@@ -43,16 +50,32 @@
             android:name="forecastDaysGallery"
             app:argType="com.tolulonge.weatherforecast.presentation.state.model.PresentationForecastGallery[]" />
         <action
-            android:id="@+id/action_forecastDaysGallery_to_specificDayWeatherFragment"
-            app:destination="@id/specificDayWeatherFragment" />
+            android:id="@+id/action_forecastDaysGallery_to_specificWeatherFragment"
+            app:destination="@id/specificWeatherFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_forecastDaysGallery_to_fragment_main_weather"
+            app:destination="@id/fragment_main_weather"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/fragment_main_weather"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/specificDayWeatherFragment"
-        android:name="com.tolulonge.weatherforecast.presentation.ui.SpecificDayWeatherFragment"
-        android:label="fragment_specific_day_weather"
-        tools:layout="@layout/fragment_specific_day_weather" >
+        android:id="@+id/specificWeatherFragment"
+        android:name="com.tolulonge.weatherforecast.presentation.ui.SpecificWeatherFragment"
+        android:label="{weatherDate}"
+        tools:layout="@layout/fragment_specific_weather" >
         <argument
-            android:name="specificDay"
-            app:argType="com.tolulonge.weatherforecast.presentation.state.model.PresentationForecastGallery" />
+            android:name="weatherDate"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_specificWeatherFragment_to_forecastDaysGallery"
+            app:destination="@id/forecastDaysGallery"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/forecastDaysGallery"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

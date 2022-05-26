@@ -4,47 +4,32 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@id/txt_date"
-            app:layout_constraintTop_toTopOf="parent"
+            android:id="@id/img_phenomenon_single_place"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toStartOf="parent"
-            android:layout_marginTop="56dp" />
-        <Constraint
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@id/txt_max_temperature"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="56dp"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
+
+            />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
-
         <Constraint
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/txt_date"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp" />
-        <Constraint
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@id/txt_max_temperature"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
+            android:id="@id/img_phenomenon_single_place"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/second_horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/second_vertical"
+            app:layout_constraintHorizontal_bias="0.637"
+            app:layout_constraintStart_toStartOf="@+id/first_vertical"
+            app:layout_constraintTop_toTopOf="@+id/first_horizontal"
+            />
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@id/start"
+        app:constraintSetStart="@+id/start"
+        app:autoTransition="animateToEnd"
         app:duration="1500"
-        app:autoTransition="animateToEnd"/>
+        />
 </MotionScene>

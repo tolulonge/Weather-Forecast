@@ -10,7 +10,7 @@
 
     <androidx.core.widget.NestedScrollView
 
-        android:background="#67A9ED"
+        android:background="@color/black_200"
         android:fillViewport="true"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
@@ -66,7 +66,7 @@
                 android:layout_width="0dp"
                 android:layout_height="330dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/clear_sky"
+                android:src="@drawable/main_rain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,8 @@
                 layout="@layout/layer_card_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                />
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="155dp" />
 
 
             <include

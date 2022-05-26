@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.tolulonge.weatherforecast.R
+import com.tolulonge.weatherforecast.core.util.loadGifs
+import com.tolulonge.weatherforecast.core.util.loadHeaderGifs
 import com.tolulonge.weatherforecast.databinding.FragmentSinglePlaceWeatherBinding
 import com.tolulonge.weatherforecast.presentation.state.model.PresentationPlace
 
@@ -41,11 +44,13 @@ class SinglePlaceWeatherFragment : Fragment() {
     private fun setUpViews(presentationPlace: PresentationPlace, date: String){
         with(presentationPlace){
             binding.apply {
+                imgPhenomenonSinglePlace.loadGifs(phenomenon ?: "")
+                ivSinglePlaceWeatherIcon.loadHeaderGifs(phenomenon ?: "")
                 txtDate.text = date
                 txtPlaceName.text = name ?: ""
                 txtPlacePhenomenon.text = phenomenon ?: ""
-                txtMinTemperature.text = (tempmin ?: "").toString()
-                txtMaxTemperature.text = (tempmax ?: "").toString()
+                txtMinTemperature.text = getString(R.string.min_temp_single_place, tempmin ?: "_")
+                txtMaxTemperature.text = getString(R.string.max_temp_single_place, tempmax ?: "_")
             }
         }
 

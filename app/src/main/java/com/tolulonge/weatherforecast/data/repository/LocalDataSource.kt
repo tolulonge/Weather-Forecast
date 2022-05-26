@@ -11,6 +11,8 @@ interface LocalDataSource {
 
     suspend fun insertWeatherForecasts(allWeatherForecasts: List<DataForecast>)
 
-    suspend fun getWeatherForecastByDate(date: String): Flow<DataForecast>
+    suspend fun getWeatherForecastByDate(date: String): DataForecast
+
+    suspend fun deleteOldDataFromDb()
 
 }
